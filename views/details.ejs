@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <%- include('./partials/header.ejs') %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <body>
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="blogs content"> <!--details content-->
+        <h2><%= blog.title %></h2>
+        <div class="content">
+            <p><%= blog.body %></p>
+        </div>
+        <a class="delete" data-id="<%=blog._id%>"><i class="fa-solid fa-trash"></i>&nbsp;delete</a>
+    </div>
+
+    <%- include('./partials/footer.ejs') %>
+
+    <script>
+        const del = document.querySelector(".delete");
+        //console.log(del.dataset.name);
+
+        const endpoint = `/blogs/${del.dataset.id}`;
+
+        del.addEventListener("click", async() => {
+            try {
+                const request = await fetch(endpoint, {
+                method: 'DELETE',
+            });
+           const response = await request.json();
+           //console.log(response);
+           if(response) window.location.href = response.redirect;
+        } catch(error) {
+            console.log(error);
+        }
+        });
+
+    </script>
+
+</body>
+</html>
